@@ -1,52 +1,61 @@
-# React useEffect Lab
+# Putting it All Together: State and Events
 
 ## Learning Goals
 
-- Use the `useEffect` hook with the dependencies array
-- Use a cleanup function with `useEffect` to stop background processes
+- Use state and events to make components dynamic
+- Implement controlled components
 
-## Overview
+## Introduction
 
-In the labs for this section, we're going to be building a trivia app! The first
-feature we're going to work on is the Question component.
-
-There is some starter code for us to work with. There's a `Question` component
-already set up to display the question and a list of possible answers. It's also
-hooked up to its parent component, `App`, so that it has access to all the props
-it needs.
-
-The feature we're going to build out using `useEffect` is a **countdown timer**,
-so that the user has to answer each question within 10 seconds.
+To build on what you've learned over the course of this section, we'll be
+building out a simple task list app to practice working with state and events,
+focusing in particular on working with arrays.
 
 ## Deliverables
 
-When the `Question` component renders, create a side effect using `useEffect` and
-use `setTimeout` to run a callback function after 1 second.
+There is some starter code built out for all of the components you'll need. The
+data for the application is imported in `App`, so you'll need to pass that data
+down to the components that need it as props.
 
-Inside the callback function for `setTimeout`, use the `setTimeRemaining`
-function to decrease the amount of time remaining by 1 every 1 second.
+Run `npm install` and `npm start`, then check out the starter code in the
+browser. You'll see a console message with the `TASK` and `CATEGORY` data you'll
+need to pass down from `App`.
 
-When `timeRemaining` hits 0, do the following:
+### TaskList
 
-- reset `timeRemaining` back to 10 seconds, so our next question will have a
-  fresh timer; and
-- call the `onAnswered` callback prop with a value of false
-  (`onAnswered(false)`), to trigger some behavior in the App component.
+First, we'll want to display all the tasks in our app. Pass down the task data
+from `App` to `TaskList`, and display each task using the `Task` component. Make
+sure to use a `key` prop!
 
-You should _also_ use the **cleanup function** for `useEffect` to clean up after
-the timeout function.
+### Task
 
-Make sure to pay attention to any warning/error messages in the console as a
-result of using `useEffect`, and clean them up by providing any necessary
-_dependencies_ in the second argument of `useEffect`.
+Update the `Task` component so that it shows the task's text and category.
 
-If you're stuck on getting the timer working, or encountering some strange
-behavior, make sure to check out the resources below!
+_When the delete button is clicked_, the task should be removed from the list.
 
-## Resources
+### CategoryFilter
 
-- [React Docs on useEffect][use-effect-hook]
-- [setTimeout Using Hooks](https://upmostly.com/tutorials/settimeout-in-react-components-using-hooks)
-- [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/)
+Pass the list of categories to this component from `App`. Then, update this
+component to display `<button>` elements for each category. In order to pass the test, the buttons will need a key prop equal to the category.
 
-[use-effect-hook]: https://reactjs.org/docs/hooks-effect.html
+_When a button is clicked_, the following should happen:
+
+- Whichever button was clicked should have a class of `selected`. The other
+  buttons should not have any class assigned.
+- The list of tasks being displayed should be filtered, so that only tasks that
+  match the category that was clicked are displayed.
+- If the button for "All" is selected, all the tasks should be displayed.
+
+### NewTaskForm
+
+Pass the list of categories to this component from `App`. Then, update this
+component to display `<option>` elements for each category inside of the
+`<select>` element **except** the "All" category, so that the user can select a
+category when adding a new task.
+
+Next, update this form to be a _controlled component_, so that all form inputs
+are captured in state.
+
+_When the form is submitted_, add a new task to the list with the text and
+category from the form. For the tests for this feature to pass, you'll need a
+callback prop named `onTaskFormSubmit` that takes a task object as an argument.
